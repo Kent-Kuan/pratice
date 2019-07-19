@@ -42,13 +42,14 @@ public class Main {
 
     private static boolean canProcessByEmployee(Queue<Employee> employees, PhoneIssue issue) {
         Employee employee = employees.poll();
+        boolean processed = false;
         if(employee != null && employee.isFree() && employee.process(issue)) {
-            waitToFree();
-            employee.setFree(true);
-            employees.offer(employee);
-            return true;
+            processed = true;
         }
-        return false;
+        waitToFree();
+        employee.setFree(true);
+        employees.offer(employee);
+        return processed;
     }
 
     private static void waitToFree() {
